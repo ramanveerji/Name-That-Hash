@@ -97,11 +97,7 @@ def main(**kwargs):
         nth --text '5f4dcc3b5aa765d61d8327deb882cf99' --greppable\n
         Note: Use single quotes ' as inverted commas " do not work well on Linux.\n
     """
-    no_args = True
-    for i in kwargs.values():
-        if i:
-            no_args = False
-            break
+    no_args = not any(kwargs.values())
     if no_args:
         with click.Context(main) as ctx:
             click.echo(main.get_help(ctx))

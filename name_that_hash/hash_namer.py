@@ -15,8 +15,7 @@ class Name_That_Hash:
         output = []
         for prototype in self.prototypes:
             if prototype.regex.match(chash):
-                for mode in prototype.modes:
-                    output.append(mode)
+                output.extend(iter(prototype.modes))
         return output
 
     def identify_all(self, chash: str):
@@ -26,6 +25,5 @@ class Name_That_Hash:
         for prototype in self.prototypes:
             if prototype.regex.findall(chash):
                 logging.debug(f"Found all matched a regex {prototype.regex}")
-                for mode in prototype.modes:
-                    output.append(mode)
+                output.extend(iter(prototype.modes))
         return output
