@@ -26,7 +26,7 @@ class Prettifier:
         self.args = kwargs
         self.hashinfo_obj = hash_info.HashInformation()
 
-        if not "popular_only" in self.args:
+        if "popular_only" not in self.args:
             self.args["popular_only"] = False
 
     def greppable_output(self, objs: List):
@@ -87,7 +87,7 @@ class Prettifier:
             return out
 
         out += "\n[bold underline #5f5fff]Most Likely[/bold underline #5f5fff] \n"
-        start = objs.prototypes[0:4]
+        start = objs.prototypes[:4]
         rest = objs.prototypes[4:]
 
         for i in start:
@@ -103,7 +103,7 @@ class Prettifier:
             out += "\n[bold underline #5f5fff]Least Likely[/bold underline #5f5fff]\n"
 
             for i in rest:
-                out += self.turn_named_tuple_pretty_print(i) + " "
+                out += f"{self.turn_named_tuple_pretty_print(i)} "
 
         console.print(out)
         return out
@@ -117,16 +117,11 @@ class Prettifier:
         des = nt["description"]
 
         if not self.hashcat:
-            if hc is not None and john:
+            if hc is not None:
                 out += f"HC: {hc} "
-            elif hc is not None:
-                out += f"HC: {hc} "
-
         if not self.john:
-            if john is not None and des:
-                out += f"JtR: {john} "
-            elif john is not None:
-                out += f"JtR: {john}"
+            if john is not None:
+                out += f"JtR: {john} " if des else f"JtR: {john}"
         if des:
             # Orange
             out += f"[#8787D7]Summary: {des}[/#8787D7]"
